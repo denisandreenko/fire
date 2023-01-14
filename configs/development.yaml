@@ -1,0 +1,14 @@
+service:
+  name: fire
+  bind_addr: ":8080"
+
+database:
+  postgres:
+    host: 127.0.0.1
+    port: 5432
+    driver: postgres
+    database: fire
+
+logging:
+  level: debug
+  stdout: false
