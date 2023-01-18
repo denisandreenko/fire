@@ -4,7 +4,6 @@ ENV GO111MODULE=on
 
 RUN apk update
 RUN apk add --update make
-#RUN apk add build-essential
 
 COPY . /app
 WORKDIR /app
@@ -12,7 +11,8 @@ WORKDIR /app
 RUN cd /app
 RUN go mod tidy
 RUN make
+RUN chmod a+rx ./build/fire
 
-CMD ["go run", "cmd/fire"]
+ENTRYPOINT APP_ROOT=/app FIRE_ENV=development ./build/fire
 
-EXPOSE 8010
+EXPOSE 8080
