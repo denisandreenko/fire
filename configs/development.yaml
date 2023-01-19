@@ -8,6 +8,7 @@ database:
     port: 5432
     driver: postgres
     database: fire
+    sslmode: disable
 
 logging:
   level: debug
