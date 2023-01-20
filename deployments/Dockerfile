@@ -5,8 +5,8 @@ ENV GO111MODULE=on
 RUN apk update
 RUN apk add --update make
 
-COPY . /app
 WORKDIR /app
+COPY . /app
 
 RUN cd /app
 RUN go mod tidy
