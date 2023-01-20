@@ -17,3 +17,6 @@
 # IDE configs
 .vscode
 .idea
+
+# Containerized DBs data
+data
