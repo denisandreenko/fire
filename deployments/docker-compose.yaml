@@ -1,7 +1,39 @@
 version: '3.1'
 
 services:
-  fire:
-    build:
-      context: ../
-      dockerfile: ./deployments/Dockerfile
+#  fire:
+#    build:
+#      context: ../
+#      dockerfile: ./deployments/Dockerfile
+
+  db_postgres:
+    image: postgres:15.1-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: usr
+      POSTGRES_PASSWORD: pass
+    ports:
+      - 5432:5432
+    volumes:
+      - ../deployments/provision/postgres/init:/docker-entrypoint-initdb.d
+      - ../data/postgres:/var/lib/postgresql/data
+
+  db_mysql:
+    image: mysql:8.0.32-oracle
+    command: --default-authentication-plugin=caching_sha2_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: usr
+      MYSQL_PASSWORD: pass
+    ports:
+      - 3306:3306
+    volumes:
+      - ../deployments/provision/mysql/init:/docker-entrypoint-initdb.d
+      - ../data/mysql:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8090:8080
