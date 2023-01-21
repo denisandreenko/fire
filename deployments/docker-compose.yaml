@@ -5,6 +5,8 @@ services:
 #    build:
 #      context: ../
 #      dockerfile: ./deployments/Dockerfile
+#    networks:
+#      - back-end
 
   db_postgres:
     image: postgres:15.1-alpine
@@ -17,6 +19,8 @@ services:
     volumes:
       - ../deployments/provision/postgres/init:/docker-entrypoint-initdb.d
       - ../data/postgres:/var/lib/postgresql/data
+    networks:
+      - back-end
 
   db_mysql:
     image: mysql:8.0.32-oracle
@@ -31,9 +35,18 @@ services:
     volumes:
       - ../deployments/provision/mysql/init:/docker-entrypoint-initdb.d
       - ../data/mysql:/var/lib/mysql
+    networks:
+      - back-end
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8090:8080
+    networks:
+      - back-end
+      - front-end
+
+networks:
+  front-end:
+  back-end:
