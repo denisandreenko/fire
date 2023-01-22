@@ -6,14 +6,22 @@ type Config struct {
 		Name     string `yaml:"name"`
 		BindAddr string `yaml:"bind_addr"`
 	} `yaml:"service"`
-	Database struct {
+	Databases struct {
 		Postgres struct {
 			Host     string `yaml:"host"`
 			Port     int    `yaml:"port"`
 			Driver   string `yaml:"driver"`
 			Database string `yaml:"database"`
+			Sslmode  string `yaml:"sslmode"`
 		} `yaml:"postgres"`
-	} `yaml:"database"`
+		Mysql struct {
+			Host     string `yaml:"host"`
+			Port     int    `yaml:"port"`
+			Driver   string `yaml:"driver"`
+			Database string `yaml:"database"`
+			Sslmode  string `yaml:"sslmode"`
+		} `yaml:"mysql"`
+	} `yaml:"databases"`
 	Logging struct {
 		Level  string `yaml:"level"`
 		Stdout bool   `yaml:"stdout"`

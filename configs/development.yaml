@@ -2,11 +2,18 @@ service:
   name: fire
   bind_addr: ":8080"
 
-database:
+databases:
   postgres:
-    host: 127.0.0.1
+    host: db_postgres
     port: 5432
     driver: postgres
+    database: fire
+    sslmode: disable
+
+  mysql:
+    host: db_mysql
+    port: 3306
+    driver: mysql
     database: fire
     sslmode: disable
 
