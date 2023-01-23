@@ -20,3 +20,6 @@
 
 # Containerized DBs data
 data
+
+# App exec
+build/fire
