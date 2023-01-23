@@ -1,12 +1,14 @@
 version: '3.1'
 
 services:
-#  fire:
-#    build:
-#      context: ../
-#      dockerfile: ./deployments/Dockerfile
-#    networks:
-#      - back-end
+  fire:
+    build:
+      context: ../
+      dockerfile: ./deployments/Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - back-end
 
   db_postgres:
     image: postgres:15.1-alpine
