@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  fire:
+    image: denisandreenko/fire-dev
+    container_name: fire-dev
+    build:
+      context: ../
+      dockerfile: ./deployments/debug.dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+      - "40000:40000"
+    security_opt:
+      - apparmor:unconfined
+      - seccomp:unconfined
+    cap_add:
+      - SYS_PTRACE
+    env_file:
+      - ../.env
+    networks:
+      - back-end
+    depends_on:
+      - db_postgres
+      - db_mysql

@@ -2,13 +2,21 @@ version: '3.1'
 
 services:
   fire:
+    image: denisandreenko/fire
+    container_name: fire
     build:
       context: ../
-      dockerfile: ./deployments/Dockerfile
+      dockerfile: ./deployments/production.dockerfile
+    restart: always
     ports:
-      - 8080:8080
+      - "8080:8080"
+    env_file:
+      - ../.env
     networks:
       - back-end
+    depends_on:
+      - db_postgres
+      - db_mysql
 
   db_postgres:
     image: postgres:15.1-alpine
@@ -17,7 +25,7 @@ services:
       POSTGRES_USER: usr
       POSTGRES_PASSWORD: pass
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - ../deployments/provision/postgres/init:/docker-entrypoint-initdb.d
       - ../data/postgres:/var/lib/postgresql/data
@@ -33,7 +41,7 @@ services:
       MYSQL_USER: usr
       MYSQL_PASSWORD: pass
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - ../deployments/provision/mysql/init:/docker-entrypoint-initdb.d
       - ../data/mysql:/var/lib/mysql
@@ -44,7 +52,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8090:8080
+      - "8090:8080"
     networks:
       - back-end
       - front-end
