@@ -13,7 +13,7 @@ RUN go mod download
 COPY . .
 RUN go mod tidy
 
-RUN make
+RUN make build
 
 
 
@@ -31,4 +31,4 @@ EXPOSE 8080
 
 USER fire
 
-ENTRYPOINT APP_ROOT=/app FIRE_ENV=development ./build/fire
+ENTRYPOINT ./build/fire
