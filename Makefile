@@ -1,10 +1,10 @@
 .PHONY: build
 build:
-	CGO_ENABLED=0 go build -o build -ldflags="-w -s" ./cmd/fire
+	CGO_ENABLED=0 go build -o build/fire -ldflags="-w -s" ./cmd/fire
 
 .PHONY: build-dev
 build-dev:
-	go build -o build -gcflags "all=-N -l" ./cmd/fire
+	go build -o build/fire -gcflags "all=-N -l" ./cmd/fire
 
 .PHONY: test
 test:
