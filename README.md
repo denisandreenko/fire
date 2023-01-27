@@ -5,6 +5,15 @@
 - APP_ROOT={Path_to_root_dir};
 - FIRE_ENV={production/staging/development}
 
+## Migrations
+Creating a new migration: <br>
+```migrate create -ext sql -dir migrations -seq initialize_schema```
+
+Run migrations: <br>
+```migrate -path migrations -database "postgres://{{user}}:{{password}}@{{host}}/{{dbname}}?sslmode=disable" up```
+
+```migrate -path migrations -database "postgres://{{user}}:{{password}}@{{host}}/{{dbname}}?sslmode=disable" down```
+
 ## Run
 ```make docker-compose-up```
 
