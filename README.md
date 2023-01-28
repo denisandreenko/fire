@@ -23,3 +23,8 @@ Install dlv lib
 
 Run
 ```make docker-compose-dev-up```
+
+# TODO
+- Swagger
+- CI/CD pipelines
+- Safe DB credentials
