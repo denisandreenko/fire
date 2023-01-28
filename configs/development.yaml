@@ -6,6 +6,8 @@ databases:
   postgres:
     host: db_postgres
     port: 5432
+    user: usr
+    password: pass
     driver: postgres
     database: fire
     sslmode: disable
@@ -13,6 +15,8 @@ databases:
   mysql:
     host: db_mysql
     port: 3306
+    user: usr
+    password: pass
     driver: mysql
     database: fire
     sslmode: disable

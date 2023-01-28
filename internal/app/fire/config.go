@@ -1,5 +1,7 @@
 package fire
 
+import "github.com/denisandreenko/fire/internal/app/repository"
+
 // Config ...
 type Config struct {
 	Service struct {
@@ -10,6 +12,8 @@ type Config struct {
 		Postgres struct {
 			Host     string `yaml:"host"`
 			Port     int    `yaml:"port"`
+			User     string `yaml:"user"`
+			Password string `yaml:"password"`
 			Driver   string `yaml:"driver"`
 			Database string `yaml:"database"`
 			Sslmode  string `yaml:"sslmode"`
@@ -17,6 +21,8 @@ type Config struct {
 		Mysql struct {
 			Host     string `yaml:"host"`
 			Port     int    `yaml:"port"`
+			User     string `yaml:"user"`
+			Password string `yaml:"password"`
 			Driver   string `yaml:"driver"`
 			Database string `yaml:"database"`
 			Sslmode  string `yaml:"sslmode"`
@@ -26,4 +32,5 @@ type Config struct {
 		Level  string `yaml:"level"`
 		Stdout bool   `yaml:"stdout"`
 	} `yaml:"logging"`
+	Repository *repository.Config
 }
