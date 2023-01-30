@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -17,7 +16,7 @@ func main() {
 	fireEnv := os.Getenv("FIRE_ENV")
 	configPath := fmt.Sprintf("%s/configs/%s.yaml", appRoot, fireEnv)
 
-	configFile, err := ioutil.ReadFile(configPath)
+	configFile, err := os.ReadFile(configPath)
 	if err != nil {
 		log.Fatal(err)
 	}
