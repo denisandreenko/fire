@@ -66,3 +66,16 @@ func (r *Repository) Open() error {
 func (r *Repository) Close() {
 	r.db.Close()
 }
+
+// User ...
+func (r *Repository) User() *UserRepository {
+	if r.userRepository != nil {
+		return r.userRepository
+	}
+
+	r.userRepository = &UserRepository{
+		repository: r,
+	}
+
+	return r.userRepository
+}
