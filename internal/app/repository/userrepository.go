@@ -12,6 +12,14 @@ type UserRepository struct {
 // Create ...
 func (r *UserRepository) Create(u *model.User) (*model.User, error) {
 	// TODO: add query db abstraction
+	if err := u.Validate(); err != nil {
+		return nil, err
+	}
+
+	if err := u.BeforeCreate(); err != nil {
+		return nil, err
+	}
+
 	if err := r.repository.db.QueryRow(
 		"INSERT INTO users (email, encrypted_password) VALUES ($1, $2) RETURNING idcreate table users(email int,	encrypted_password int,	id int);",
 		u.Email,
