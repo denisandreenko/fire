@@ -15,6 +15,6 @@ func TestAPIServer_HandleHello(t *testing.T) {
 	s := New(testConfig)
 	rec := httptest.NewRecorder()
 	req, _ := http.NewRequest(http.MethodGet, "/ishealthy", nil)
-	s.isHealthy().ServeHTTP(rec, req)
+	s.handleIsHealthy().ServeHTTP(rec, req)
 	assert.Equal(t, rec.Body.String(), "healthy")
 }
