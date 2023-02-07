@@ -3,6 +3,8 @@ service:
   bind_addr: ":8080"
 
 databases:
+  active_driver: postgres
+
   postgres:
     host: db_postgres
     port: 5432

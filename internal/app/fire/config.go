@@ -9,7 +9,8 @@ type Config struct {
 		BindAddr string `yaml:"bind_addr"`
 	} `yaml:"service"`
 	Databases struct {
-		Postgres struct {
+		ActiveDriver string `yaml:active_driver`
+		Postgres     struct {
 			Host     string `yaml:"host"`
 			Port     int    `yaml:"port"`
 			User     string `yaml:"user"`
