@@ -1,7 +1,5 @@
 package fire
 
-import "github.com/denisandreenko/fire/internal/app/repository"
-
 // Config ...
 type Config struct {
 	Service struct {
@@ -9,7 +7,7 @@ type Config struct {
 		BindAddr string `yaml:"bind_addr"`
 	} `yaml:"service"`
 	Databases struct {
-		ActiveDriver string `yaml:active_driver`
+		ActiveDriver string `yaml:"active_driver"`
 		Postgres     struct {
 			Host     string `yaml:"host"`
 			Port     int    `yaml:"port"`
@@ -33,5 +31,4 @@ type Config struct {
 		Level  string `yaml:"level"`
 		Stdout bool   `yaml:"stdout"`
 	} `yaml:"logging"`
-	Repository *repository.Config
 }

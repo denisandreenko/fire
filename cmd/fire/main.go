@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v3"
 	"log"
 	"os"
+
+	"gopkg.in/yaml.v3"
 
 	"github.com/denisandreenko/fire/internal/app/fire"
 )
@@ -26,8 +27,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	s := fire.New(config)
-	if err := s.Start(); err != nil {
+	if err := fire.Start(config); err != nil {
 		log.Fatal(err)
 	}
 }

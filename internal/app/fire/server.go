@@ -4,72 +4,47 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/denisandreenko/fire/internal/app/repository"
+	"github.com/denisandreenko/fire/internal/app/store"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 )
 
-// Server ...
-type Server struct {
-	config     *Config
-	logger     *logrus.Logger
-	router     *mux.Router
-	repository *repository.Repository
+type server struct {
+	router *mux.Router
+	logger *logrus.Logger
+	store  store.Store
 }
 
-func New(config *Config) *Server {
-	return &Server{
-		config: config,
-		logger: logrus.New(),
+func newServer(store store.Store) *server {
+	s := &server{
 		router: mux.NewRouter(),
-	}
-}
-
-// Start ...
-func (s *Server) Start() error {
-	if err := s.configureLogger(); err != nil {
-		return err
+		logger: logrus.New(),
+		store:  store,
 	}
 
 	s.configureRouter()
 
-	if err := s.configureRepository(); err != nil {
-		return err
-	}
-
-	s.logger.Info("starting server")
-
-	return http.ListenAndServe(s.config.Service.BindAddr, s.router)
+	return s
 }
 
-func (s *Server) configureLogger() error {
-	level, err := logrus.ParseLevel(s.config.Logging.Level)
-	if err != nil {
-		return err
-	}
-
-	s.logger.SetLevel(level)
-
-	return nil
+// ServeHTTP ...
+func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	s.router.ServeHTTP(w, r)
 }
 
-func (s *Server) configureRouter() {
-	s.router.HandleFunc("/ishealthy", s.handleIsHealthy())
+func (s *server) configureRouter() {
+	s.router.HandleFunc("/ishealthy", s.handleIsHealthy()).Methods("GET")
+	s.router.HandleFunc("/users", s.handleUsersCreate()).Methods("POST")
 }
 
-func (s *Server) configureRepository() error {
-	repo := repository.New(s.config.Repository)
-	if err := repo.Open(); err != nil {
-		return err
-	}
-
-	s.repository = repo
-
-	return nil
-}
-
-func (s *Server) handleIsHealthy() http.HandlerFunc {
+func (s *server) handleIsHealthy() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		io.WriteString(w, "healthy")
+	}
+}
+
+func (s *server) handleUsersCreate() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
 	}
 }
