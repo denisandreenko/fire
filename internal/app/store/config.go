@@ -1,4 +1,4 @@
-package repository
+package store
 
 // Config ...
 type Config struct {
