@@ -1,0 +1,20 @@
+pipeline {
+    agent: any
+
+    tools: {
+        go 'go-1.19'
+    }
+
+    environment {
+        GO111MODULE='on'
+    }
+
+    stages {
+        stage('Test') {
+            steps {
+                git 'https://github.com/denisandreenko/fire.git'
+                sh 'go test ./...'
+            }
+        }
+    }
+}
