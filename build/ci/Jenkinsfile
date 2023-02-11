@@ -16,5 +16,19 @@ pipeline {
                 sh 'go test ./...'
             }
         }
+
+        stage('Build') {
+            steps {
+                git 'https://github.com/denisandreenko/fire.git'
+                sh 'go build ./cmd/fire'
+            }
+        }
+
+        stage('Run') {
+            steps {
+                git 'https://github.com/denisandreenko/fire.git'
+                sh 'cd /var/lib/jenkins/workspace/go-full-pipeline && fire &'
+            }
+        }
     }
 }
