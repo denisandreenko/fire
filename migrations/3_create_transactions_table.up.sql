@@ -1,4 +1,4 @@
-CREATE TYPE migrations.currency AS ENUM ('EUR', 'USD');
+CREATE TYPE currency AS ENUM ('EUR', 'USD');
 
 CREATE TABLE migrations.transactions (
       id BIGSERIAL NOT NULL,
