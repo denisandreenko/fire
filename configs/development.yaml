@@ -1,6 +1,7 @@
 service:
   name: fire
   bind_addr: ":8080"
+  session_key: "8EAEF25C9D3CED951024D083615C73644A119686114B8F52C16A60A9E2EB5562"
 
 databases:
   active_driver: postgres
