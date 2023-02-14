@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/denisandreenko/fire/internal/app/store/sqlstore"
+	"github.com/gorilla/sessions"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -21,7 +22,8 @@ func Start(config *Config) error {
 
 	defer db.Close()
 	store := sqlstore.New(db)
-	s := newServer(store)
+	sessionsStore := sessions.NewCookieStore([]byte(config.Service.SessionKey))
+	s := newServer(store, sessionsStore)
 
 	return http.ListenAndServe(config.Service.BindAddr, s)
 }
