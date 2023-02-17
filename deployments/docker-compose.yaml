@@ -28,7 +28,7 @@ services:
       - "5432:5432"
     volumes:
       - ../deployments/provision/postgres/init:/docker-entrypoint-initdb.d
-      - ../data/postgres:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     networks:
       - back-end
 
@@ -44,7 +44,7 @@ services:
       - "3306:3306"
     volumes:
       - ../deployments/provision/mysql/init:/docker-entrypoint-initdb.d
-      - ../data/mysql:/var/lib/mysql
+      - mysqldata:/var/lib/mysql
     networks:
       - back-end
 
