@@ -1,3 +1,5 @@
+DOCKER_CONTAINERS = $(shell docker ps -q)
+
 .PHONY: build
 build:
 	CGO_ENABLED=0 go build -o build/fire -ldflags="-w -s" ./cmd/fire
@@ -29,5 +31,9 @@ docker-compose-up: docker-build
 .PHONY: docker-compose-dev-up
 docker-compose-dev-up: docker-build-dev
 	docker compose -f deployments/docker-compose.yaml -f deployments/docker-compose.debug.yaml up
+
+.PHONY: docker-stop
+docker-stop:
+	docker stop $(DOCKER_CONTAINERS)
 
 .DEFAULT_GOAL := build
