@@ -2,27 +2,38 @@ package fire
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"database/sql"
 	"net/http"
 
 	"github.com/denisandreenko/fire/internal/app/store/sqlstore"
+	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
+const _sessionKey = "SESSION_KEY"
+
 func Start(config *Config) error {
 	db, err := newDB(config)
 	if err != nil {
 		return err
 	}
-
 	defer db.Close()
+
 	store := sqlstore.New(db)
-	sessionsStore := sessions.NewCookieStore([]byte(config.Service.SessionKey))
+
+	sessionKey := os.Getenv(_sessionKey)
+	if sessionKey == "" {
+		sessionKey = string(securecookie.GenerateRandomKey(32))
+		os.Setenv(_sessionKey, sessionKey)
+	}
+	sessionsStore := sessions.NewCookieStore([]byte(sessionKey))
+
 	s := newServer(store, sessionsStore)
 
 	return http.ListenAndServe(config.Service.BindAddr, s)

@@ -3,9 +3,8 @@ package fire
 // Config ...
 type Config struct {
 	Service struct {
-		Name       string `yaml:"name"`
-		BindAddr   string `yaml:"bind_addr"`
-		SessionKey string `yaml:"session_key"`
+		Name     string `yaml:"name"`
+		BindAddr string `yaml:"bind_addr"`
 	} `yaml:"service"`
 	Databases struct {
 		ActiveDriver string `yaml:"active_driver"`
