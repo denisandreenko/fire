@@ -68,6 +68,8 @@ services:
 
 volumes:
   jenkins_home:
+  pgdata:
+  mysqldata:
 
 networks:
   front-end:
