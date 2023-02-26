@@ -3,7 +3,7 @@ service:
   bind_addr: ":8080"
 
 databases:
-  active_driver: postgres
+  active_driver: mysql
 
   postgres:
     host: db_postgres

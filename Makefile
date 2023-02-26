@@ -1,5 +1,8 @@
 DOCKER_CONTAINERS = $(shell docker ps -q)
 
+# Number of migrations - this is optionally used on up and down commands
+N?=
+
 .PHONY: build
 build:
 	CGO_ENABLED=0 go build -o build/fire -ldflags="-w -s" ./cmd/fire
@@ -35,5 +38,13 @@ docker-compose-dev-up: docker-build-dev
 .PHONY: docker-stop
 docker-stop:
 	docker stop $(DOCKER_CONTAINERS)
+
+.PHONY: migrate-setup
+migrate-setup:
+	@if [ -z "$$(which migrate)" ]; then echo "Installing migrate command..."; go install -tags 'mysql' -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest; fi
+
+.PHONY: migrate-setup
+migrate-up: migrate-setup
+
 
 .DEFAULT_GOAL := build
