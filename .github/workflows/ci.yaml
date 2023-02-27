@@ -4,15 +4,34 @@ jobs:
   run_code_checks:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of branch is ${{ github.ref }} and repository is ${{ github.repository }}."
+
       - name: Checkout Repo Code
         uses: actions/checkout@v3
+
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
           go-version: 1.20
+
       - name: Run linting
         run: |
           go fmt ./...
           go vet ./...
-      - name: Run tests
+
+      - name: Build
+        run: go build -v ./...
+          
+      - name: Test
         run: go test ./...
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."
