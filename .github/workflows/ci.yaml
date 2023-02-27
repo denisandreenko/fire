@@ -1,0 +1,18 @@
+name: Continuous Integration
+on: push
+jobs:
+  run_code_checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo Code
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.20
+      - name: Run linting
+        run: |
+          go fmt ./...
+          go vet ./...
+      - name: Run tests
+        run: go test ./...
