@@ -3,6 +3,8 @@ DOCKER_CONTAINERS = $(shell docker ps -q)
 # Number of migrations - this is optionally used on up and down commands
 N?=
 
+MYSQL_DSN ?= $(MYSQL_USER):$(MYSQL_PASSWORD)@tcp($(MYSQL_HOST):$(MYSQL_PORT))/$(MYSQL_DATABASE)
+
 .PHONY: build
 build:
 	CGO_ENABLED=0 go build -o build/fire -ldflags="-w -s" ./cmd/fire
@@ -17,11 +19,11 @@ test:
 
 .PHONY: docker-build
 docker-build:
-	docker build -f deployments/production.dockerfile . -t denisandreenko/fire
+	docker build -f deployments/dockerfiles/production.dockerfile . -t denisandreenko/fire
 
 .PHONY: docker-build-dev
 docker-build-dev:
-	docker build -f deployments/debug.dockerfile . -t denisandreenko/fire-dev
+	docker build -f deployments/dockerfiles/debug.dockerfile . -t denisandreenko/fire-dev
 
 .PHONY: docker-scan
 docker-scan:
@@ -45,6 +47,11 @@ migrate-setup:
 
 .PHONY: migrate-setup
 migrate-up: migrate-setup
+	@ migrate -database 'mysql://$(MYSQL_DSN)?multiStatements=true' -path migrations up $(N)
+
+.PHONY: migrate-down
+migrate-down: migrate-setup
+	@ migrate -database 'mysql://$(MYSQL_DSN)?multiStatements=true' -path migrations down $(N)
 
 
 .DEFAULT_GOAL := build

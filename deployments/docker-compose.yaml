@@ -6,7 +6,7 @@ services:
     container_name: fire
     build:
       context: ../
-      dockerfile: ./deployments/production.dockerfile
+      dockerfile: ./deployments/dockerfiles/production.dockerfile
     restart: always
     ports:
       - "8080:8080"

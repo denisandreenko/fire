@@ -6,7 +6,7 @@ services:
     container_name: fire-dev
     build:
       context: ../
-      dockerfile: ./deployments/debug.dockerfile
+      dockerfile: ./deployments/dockerfiles/debug.dockerfile
     restart: always
     ports:
       - "8080:8080"
