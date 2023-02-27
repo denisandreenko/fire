@@ -31,17 +31,13 @@ jobs:
       - name: Display Go version
         run: go version
 
-      - name: Install dependencies
-        run: |
-          go get .
-
       - name: Run linting
         run: |
           go fmt ./...
           go vet ./...
 
       - name: Build
-        run: go build -v ./...
+        run: go build ./cmd/fire
           
       - name: Test
         run: go test ./...
