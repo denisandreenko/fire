@@ -1,3 +1,5 @@
+![Build status](https://github.com/denisandreenko/fire/actions/workflows/ci.yaml/badge.svg)
+
 # Fire
 🔥🔥 FIRE 🔥🔥 is a p2p portfolio tracker which collects data from statements of supported p2p platforms and shows analytics of the entire portfolio  
 
@@ -27,4 +29,4 @@ Run
 # TODO
 - Swagger
 - CI/CD pipelines
-- Safe DB credentials
+- Safe DB credentials (github CI, Makefile, configs)
