@@ -1,0 +1,6 @@
+CREATE TABLE users (
+    id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    encrypted_password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+);
