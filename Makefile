@@ -1,9 +1,16 @@
 DOCKER_CONTAINERS = $(shell docker ps -q)
 
-# Number of migrations - this is optionally used on up and down commands
-N?=
+# TODO: use env variables
+DB_USER ?= usr
+DB_PASSWORD ?= pass
+DB_HOST ?= 127.0.0.1
+MYSQL_PORT ?= 3306
+POSTGRES_PORT ?= 5432
+DB_DATABASE ?= fire
+DB_TEST_DATABASE ?= fire_test
 
-MYSQL_DSN ?= $(MYSQL_USER):$(MYSQL_PASSWORD)@tcp($(MYSQL_HOST):$(MYSQL_PORT))/$(MYSQL_DATABASE)
+MYSQL_DSN ?= $(DB_USER):$(DB_PASSWORD)@tcp($(DB_HOST):$(MYSQL_PORT))/$(DB_DATABASE)
+POSTGRES_DSN ?= $(DB_USER):$(DB_PASSWORD)@$(DB_HOST:$(POSTGRES_PORT)/$(DB_DATABASE)
 
 .PHONY: build
 build:
@@ -43,15 +50,16 @@ docker-stop:
 
 .PHONY: migrate-setup
 migrate-setup:
-	@if [ -z "$$(which migrate)" ]; then echo "Installing migrate command..."; go install -tags 'mysql' -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest; fi
+	@if [ -z "$$(which migrate)" ]; then echo "Installing migrate command..."; go install -tags 'mysql','postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest; fi
 
-.PHONY: migrate-setup
+.PHONY: migrate-up
 migrate-up: migrate-setup
-	@ migrate -database 'mysql://$(MYSQL_DSN)?multiStatements=true' -path migrations up $(N)
+	@ migrate -database 'mysql://$(MYSQL_DSN)?multiStatements=true' -path migrations/mysql up
+	@ migrate -database 'postgres://$(POSTGRES_DSN)?sslmode=disable' -path migrations/postgres up
 
 .PHONY: migrate-down
 migrate-down: migrate-setup
-	@ migrate -database 'mysql://$(MYSQL_DSN)?multiStatements=true' -path migrations down $(N)
-
+	@ migrate -database 'mysql://$(MYSQL_DSN)?multiStatements=true' -path migrations/mysql down
+	@ migrate -database 'postgres://$(POSTGRES_DSN)?sslmode=disable' -path migrations/postgres down
 
 .DEFAULT_GOAL := build
