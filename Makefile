@@ -28,8 +28,11 @@ test:
 docker-build:
 	@docker build -f deployments/dockerfiles/production.dockerfile . -t denisandreenko/fire
 
+dlv-setup:
+	@if [ -z "$$(which dlv)" ]; then echo "Installing Delve Debugger..."; go get github.com/go-delve/delve/cmd/dlv@latest; fi
+
 .PHONY: docker-build-dev
-docker-build-dev:
+docker-build-dev: dlv-setup
 	@docker build -f deployments/dockerfiles/debug.dockerfile . -t denisandreenko/fire-dev
 
 .PHONY: docker-scan
@@ -48,7 +51,6 @@ docker-compose-dev-up: docker-build-dev
 docker-stop:
 	@docker stop $(DOCKER_CONTAINERS)
 
-.PHONY: migrate-setup
 migrate-setup:
 	@if [ -z "$$(which migrate)" ]; then echo "Installing migrate command..."; go install -tags 'mysql','postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest; fi
 
