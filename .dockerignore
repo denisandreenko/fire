@@ -14,5 +14,14 @@
 # Containerized DBs data
 data
 
+# DB migrations
+migrations
+
+# Environment variables
+.env
+
+# Deployments tools
+deployments
+
 # App exec
 build/fire
