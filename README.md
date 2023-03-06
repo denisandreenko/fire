@@ -8,23 +8,30 @@
 - FIRE_ENV={production/staging/development}
 
 ## Migrations
+Install 'migrate' lib: <br>
+```make migrate-setup```
+
 Creating a new migration: <br>
 ```migrate create -ext sql -dir migrations -seq initialize_schema```
 
 Run migrations: <br>
-```migrate -path migrations -database "postgres://{{user}}:{{password}}@{{host}}/{{dbname}}?sslmode=disable" up```
+```make migrate-up```
 
-```migrate -path migrations -database "postgres://{{user}}:{{password}}@{{host}}/{{dbname}}?sslmode=disable" down```
+```make migrate-down```
 
 ## Run
 ```make docker-compose-up```
 
 ## Debug mode
-Install dlv lib
-```go get github.com/go-delve/delve/cmd/dlv```
-
-Run
 ```make docker-compose-dev-up```
+
+## Jenkins
+Plugins:
+- 'git' - to download project from GitHub
+- 'pipeline' - for creating and running CI/CD pipelines
+- 'blue ocean' - modern Jenkins UI (access via <jenkins-url>/blue)
+- 'ssh build agents' - allows to launch agents over SSH, using a Java implementation of the SSH protocol
+
 
 # TODO
 - Swagger
