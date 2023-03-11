@@ -4,6 +4,12 @@ services:
   fire:
     image: denisandreenko/fire
     container_name: fire
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8080/ishealthy || exit 1
+      interval: 60s
+      retries: 3
+      start_period: 1m30s
+      timeout: 10s
     build:
       context: ../
       dockerfile: ./deployments/dockerfiles/production.dockerfile
