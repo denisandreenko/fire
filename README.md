@@ -35,5 +35,6 @@ Plugins:
 
 # TODO
 - Swagger
-- CI/CD pipelines
+- CI/CD pipelines (merge to main branch after CI passes, build image and put to the registry, deploy it on a cloud platform)
 - Safe DB credentials (github CI, Makefile, configs)
+- Add helper service, that handles user downloads (gRPC transcport)
