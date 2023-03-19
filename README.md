@@ -1,4 +1,5 @@
 ![Build status](https://github.com/denisandreenko/fire/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)
+[![codecov](https://codecov.io/gh/denisandreenko/fire/branch/main/graph/badge.svg)](https://codecov.io/gh/denisandreenko/fire)
 
 # Fire
 🔥🔥 FIRE 🔥🔥 is a p2p portfolio tracker which collects data from statements of supported p2p platforms and shows analytics of the entire portfolio  
