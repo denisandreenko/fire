@@ -42,4 +42,7 @@ jobs:
       - name: Test
         run: go test ./...
 
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+
       - run: echo "🍏 This job's status is ${{ job.status }}."
