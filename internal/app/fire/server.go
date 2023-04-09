@@ -49,6 +49,7 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	s.router.ServeHTTP(w, r)
 }
 
+// configureRouter configures the router by adding middleware functions and defining handlers for various endpoints
 func (s *server) configureRouter() {
 	s.router.Use(s.setRequestID)
 	s.router.Use(s.logRequest)
@@ -62,6 +63,8 @@ func (s *server) configureRouter() {
 	private.HandleFunc("/whoami", s.handleWhoami()).Methods("GET")
 }
 
+// setRequestID middleware function generates a unique ID for each incoming request and sets it in the response header.
+// It also adds the ID to the request context so that it can be used by subsequent middleware or handlers
 func (s *server) setRequestID(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		id := uuid.New().String()
@@ -70,6 +73,7 @@ func (s *server) setRequestID(next http.Handler) http.Handler {
 	})
 }
 
+// logRequest middleware function logs information about incoming requests, such as the remote address, HTTP method, and URI
 func (s *server) logRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		logger := s.logger.WithFields(logrus.Fields{
@@ -101,12 +105,14 @@ func (s *server) logRequest(next http.Handler) http.Handler {
 	})
 }
 
+// handleIsHealthy returns a simple "healthy" message to indicate that the server is running
 func (s *server) handleIsHealthy() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		io.WriteString(w, "healthy")
 	}
 }
 
+// authenticateUser middleware function checks whether the user is authenticated by looking up the user ID in the session store
 func (s *server) authenticateUser(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		session, err := s.sessionStore.Get(r, sessionName)
@@ -131,6 +137,7 @@ func (s *server) authenticateUser(next http.Handler) http.Handler {
 	})
 }
 
+// handleUsersCreate creates a new user
 func (s *server) handleUsersCreate() http.HandlerFunc {
 	type request struct {
 		Email    string `json:"email"`
@@ -158,6 +165,7 @@ func (s *server) handleUsersCreate() http.HandlerFunc {
 	}
 }
 
+// handleSessionsCreate creates a new session
 func (s *server) handleSessionsCreate() http.HandlerFunc {
 	type request struct {
 		Email    string `json:"email"`
@@ -193,16 +201,19 @@ func (s *server) handleSessionsCreate() http.HandlerFunc {
 	}
 }
 
+// handleWhoami returns the user object stored in the request context by the 'authenticateUser' middleware function
 func (s *server) handleWhoami() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		s.respond(w, r, http.StatusOK, r.Context().Value(ctxKeyUser).(*model.User))
 	}
 }
 
+// error returns an error response with the provided error message
 func (s *server) error(w http.ResponseWriter, r *http.Request, code int, err error) {
 	s.respond(w, r, code, map[string]string{"error": err.Error()})
 }
 
+// respond returns a JSON response with the provided data and status code
 func (s *server) respond(w http.ResponseWriter, r *http.Request, code int, data interface{}) {
 	w.WriteHeader(code)
 	if data != nil {
